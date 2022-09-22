@@ -12,7 +12,7 @@ class CardSwiperScreen extends StatelessWidget {
 
     final size = MediaQuery.of(context).size;
 
-    return SizedBox(
+    return Container(
       width: double.infinity,
       height: size.height*0.5,
       //color: Colors.red,
@@ -20,15 +20,15 @@ class CardSwiperScreen extends StatelessWidget {
         itemCount: 10,
         layout: SwiperLayout.STACK,
         itemWidth: size.width*0.6,
-        itemHeight: size.height*0.5,
-        itemBuilder: (context, index) {
+        itemHeight: size.height*0.4,
+        itemBuilder: ( _ , index) {
           return  GestureDetector(
             onTap: () => Navigator.pushNamed(context, 'details', arguments: 'movie' ),
             child: ClipRRect(
               borderRadius: BorderRadius.circular(20),
               child:  const FadeInImage(
                 placeholder: AssetImage('assets/no-image.jpg'), 
-                image: NetworkImage('https://via.placeholder.com/300x400'),
+                image: AssetImage('assets/loading.gif'),
                 fit: BoxFit.cover,
                 
                 ),
