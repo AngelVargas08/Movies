@@ -15,11 +15,8 @@ class MovieScreen extends StatelessWidget {
         child: Column( 
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Padding(padding: EdgeInsets.symmetric(horizontal: 20),
-            child: Padding(
-              padding: EdgeInsets.only(bottom: 4),
-              child: Text('Populares', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold ),),
-            ),
+            const Padding(padding: EdgeInsets.only(left: 20, bottom: 4),
+            child: Text('Populares', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold ),),
             ),
             Expanded(
               child: ListView.builder(
