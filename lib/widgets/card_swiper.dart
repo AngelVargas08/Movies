@@ -2,13 +2,25 @@
 import 'package:flutter/material.dart';
 
 import 'package:card_swiper/card_swiper.dart';
+import 'package:peliculas/providers/movies_provider.dart';
+import 'package:provider/provider.dart';
+
+import '../models/models.dart';
 
 class CardSwiperScreen extends StatelessWidget {
    
-  const CardSwiperScreen({Key? key}) : super(key: key);
+  final List<Movie> movies;
+
+  const CardSwiperScreen({
+    super.key, 
+    required this.movies
+    });
   
   @override
   Widget build(BuildContext context) {
+
+
+    
 
     final size = MediaQuery.of(context).size;
 
@@ -17,18 +29,22 @@ class CardSwiperScreen extends StatelessWidget {
       height: size.height*0.5,
       //color: Colors.red,
       child: Swiper(
-        itemCount: 10,
+        itemCount: movies.length,
         layout: SwiperLayout.STACK,
         itemWidth: size.width*0.6,
-        itemHeight: size.height*0.4,
+        itemHeight: size.height*0.7,
         itemBuilder: ( _ , index) {
+
+          final movie = movies[index]; 
+          print(movie.posterPath);
+
           return  GestureDetector(
             onTap: () => Navigator.pushNamed(context, 'details', arguments: 'movie' ),
             child: ClipRRect(
               borderRadius: BorderRadius.circular(20),
-              child:  const FadeInImage(
+              child:  FadeInImage(
                 placeholder: AssetImage('assets/no-image.jpg'), 
-                image: AssetImage('assets/loading.gif'),
+                image: NetworkImage(movie.fullPosterImg),
                 fit: BoxFit.cover,
                 
                 ),
