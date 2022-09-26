@@ -26,11 +26,13 @@ class HomeScreen extends StatelessWidget {
       ),
       body: SingleChildScrollView(
         child: Column(
+          
        children:  [
+        const Padding(padding: EdgeInsets.only(top: 10)),
         //Tarjeta principal
         CardSwiperScreen(movies: moviesProvider.OnDisplayMovies,),
         //
-        MovieScreen(),
+        const MovieScreen(),
 
 
        ],
