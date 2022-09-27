@@ -1,10 +1,17 @@
 
 
 import 'package:flutter/material.dart';
+import 'package:peliculas/models/models.dart';
 
 class MovieScreen extends StatelessWidget {
-   
-  const MovieScreen({Key? key}) : super(key: key);
+
+   final List<Movie> movies;
+   final String? title;
+
+  const MovieScreen({Key? key,
+  required this.movies, 
+  this.title
+  }) : super(key: key);
   
   @override
   Widget build(BuildContext context) {
@@ -15,14 +22,15 @@ class MovieScreen extends StatelessWidget {
         child: Column( 
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Padding(padding: EdgeInsets.only(left: 20, bottom: 4),
-            child: Text('Populares', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold ),),
+            if(title != null)
+             Padding(padding: const EdgeInsets.only(left: 20, bottom: 4),
+            child: Text( title! , style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold ),),
             ),
             Expanded(
               child: ListView.builder(
                 scrollDirection: Axis.horizontal,
-                itemCount: 10,
-                itemBuilder: (_, index) => const _MoviePoster(),
+                itemCount: movies.length,
+                itemBuilder: ( _ , index) =>  _MoviePoster(movies[index])
                 ),
             )
           ],
@@ -32,7 +40,10 @@ class MovieScreen extends StatelessWidget {
 }
 
 class _MoviePoster extends StatelessWidget {
-  const _MoviePoster({super.key});
+
+  final Movie moviex; 
+
+  const _MoviePoster( this.moviex);
 
   @override
   Widget build(BuildContext context) {
@@ -47,9 +58,9 @@ class _MoviePoster extends StatelessWidget {
             onTap: () => Navigator.pushNamed(context, 'details', arguments: 'movie' ),
             child: ClipRRect(
               borderRadius: BorderRadius.circular(20),
-              child: const FadeInImage(
-                placeholder: AssetImage('assets/no-image.jpg'), 
-                image: AssetImage('assets/no-image.jpg'),
+              child:  FadeInImage(
+                placeholder: const AssetImage('assets/no-image.jpg'), 
+                image: NetworkImage(moviex.fullPosterImg),
                 width: 130,
                 height: 190,
                 fit: BoxFit.cover,
@@ -58,10 +69,10 @@ class _MoviePoster extends StatelessWidget {
           ),
             const SizedBox(height: 5,),
 
-            const Text('Starwars: El retorno del nuevo jedi silvestre dangong',
+             Text('${moviex.title} ${moviex.overview}',
             maxLines: 2,
             overflow: TextOverflow.ellipsis,
-            textAlign: TextAlign.center,
+            textAlign: TextAlign.left,
             )
         ],
        ),

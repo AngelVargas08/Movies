@@ -13,6 +13,7 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
 
       final moviesProvider = Provider.of<MoviesProvider>(context);
+      
 
     return  Scaffold(
       appBar:  AppBar(
@@ -30,9 +31,9 @@ class HomeScreen extends StatelessWidget {
        children:  [
         const Padding(padding: EdgeInsets.only(top: 10)),
         //Tarjeta principal
-        CardSwiperScreen(movies: moviesProvider.OnDisplayMovies,),
+        CardSwiperScreen(movies: moviesProvider.onDisplayMovies,),
         //
-        const MovieScreen(),
+        MovieScreen(movies: moviesProvider.popularsMovies, title: 'Populares',),
 
 
        ],
