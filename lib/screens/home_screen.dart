@@ -33,7 +33,10 @@ class HomeScreen extends StatelessWidget {
         //Tarjeta principal
         CardSwiperScreen(movies: moviesProvider.onDisplayMovies,),
         //
-        MovieScreen(movies: moviesProvider.popularsMovies, title: 'Populares',),
+        MovieScreen(movies: moviesProvider.popularsMovies,
+         title: 'Populares',
+         onNextPage: () => moviesProvider.getPopularsMovies(),
+         ),
 
 
        ],

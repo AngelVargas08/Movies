@@ -1,25 +1,32 @@
 
 import 'package:flutter/material.dart';
+import 'package:peliculas/models/models.dart';
 import 'package:peliculas/widgets/widgets.dart';
 
 class DetailsScreen extends StatelessWidget {
    
-  const DetailsScreen({Key? key}) : super(key: key);
+
   
   @override
   Widget build(BuildContext context) {
 
-    final String movie = ModalRoute.of(context)?.settings.arguments.toString() ?? 'no-movie';
+        //nos captura los argumentos enviados al momento de seleccionar la pelicula
+    final Movie movie = ModalRoute.of(context)!.settings.arguments as Movie;
+            print(movie.title);
 
     return Scaffold(
       body: CustomScrollView(
         slivers: [
-          const  _CustomAppbar(),
+            _CustomAppbar(title: movie.title),
           SliverList(
             delegate: SliverChildListDelegate([
-             const _PosterAndTitle(),
-             const _Overview(),
-             const _Overview(),
+              _PosterAndTitle(title: movie.title, originaltitle:
+              movie.originalTitle,
+              vote: movie.voteAverage,
+              ),
+              _Overview(overview: movie.overview,),
+              _Overview(overview: movie.overview,),
+             
              const CastingListScreen(),
            
             ]))
@@ -30,7 +37,10 @@ class DetailsScreen extends StatelessWidget {
 }
 
 class  _CustomAppbar extends StatelessWidget {
-  const  _CustomAppbar({super.key});
+  final String title; 
+  const  _CustomAppbar({super.key, 
+  required this.title
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -46,8 +56,8 @@ class  _CustomAppbar extends StatelessWidget {
             width : double.infinity,
             alignment: Alignment.bottomCenter,
             color: Colors.black12,
-            child: const Text('movie.title',
-            style: TextStyle(fontSize: 16),
+            child: Text(title,
+            style: const TextStyle(fontSize: 16),
             ),
           ),
           background: const FadeInImage(
@@ -63,8 +73,14 @@ class  _CustomAppbar extends StatelessWidget {
 
 class _PosterAndTitle extends StatelessWidget {
 
-
-    const _PosterAndTitle({super.key});
+    final String title;
+    final String originaltitle;
+    final double vote;
+    const _PosterAndTitle({super.key, 
+    required this.title, 
+    required this.originaltitle, 
+    required this.vote
+    });
 
   @override
   Widget build(BuildContext context) {
@@ -89,14 +105,14 @@ class _PosterAndTitle extends StatelessWidget {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('movie.title',style: texttheme.headline5, overflow: TextOverflow.ellipsis, maxLines: 2,),
-                Text('movie.originalTitle',style: texttheme.subtitle1, overflow: TextOverflow.ellipsis,),
+                Text(title, style: texttheme.headline5, overflow: TextOverflow.ellipsis, maxLines: 2,),
+                Text(originaltitle, style: texttheme.subtitle1, overflow: TextOverflow.ellipsis,),
               
               Row(
                   children:  [
                     const Icon(Icons.star_outline, size: 20, color: Colors.grey,),
                     const SizedBox(width: 5,),
-                    Text('movie.voteAverage', style: texttheme.caption,)
+                    Text('$vote', style: texttheme.caption,)
                   ],
               )
               ],
@@ -110,13 +126,14 @@ class _PosterAndTitle extends StatelessWidget {
 
 
 class _Overview extends StatelessWidget {
-  const _Overview({super.key});
+  final String overview;
+  const _Overview({super.key, required this.overview});
 
   @override
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
-      child: Text('Sint esse fugiat eiusmod est eiusmod laboris consequat adipisicing. Amet elit Lorem dolore veniam. Veniam labore mollit deserunt nulla fugiat adipisicing aliqua esse. Elit minim sint consequat aliqua consequat nostrud eiusmod mollit nisi adipisicing labore adipisicing proident ex. Deserunt dolor cillum commodo ullamco non sit reprehenderit ad quis aliqua veniam reprehenderit non voluptate. Enim esse velit ullamco enim anim aliquip non do irure deserunt. Ea id minim sint commodo reprehenderit laborum dolore ad mollit labore irure velit.',
+      child: Text(overview,
                   textAlign: TextAlign.justify,
                   style: Theme.of(context).textTheme.subtitle1,
       )
