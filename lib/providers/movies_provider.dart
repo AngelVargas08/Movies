@@ -4,7 +4,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart'as http;
-
 import '../models/models.dart';
 
 class MoviesProvider extends ChangeNotifier{
@@ -15,6 +14,7 @@ class MoviesProvider extends ChangeNotifier{
 
    List<Movie> onDisplayMovies = [];
    List<Movie> popularsMovies = [];
+   Map<int, List<Cast>> movieCast = {};
 
    int _popularPage = 0;
 
@@ -57,4 +57,21 @@ class MoviesProvider extends ChangeNotifier{
       notifyListeners();
 
   }
+
+    Future<List<Cast>> getMoviesCast(int movieId)async{
+
+        //este condicional evalua el id para no realizar peticiones al servidor
+      if (movieCast.containsKey(movieId)){
+              return movieCast[movieId]!;
+      }
+      
+
+        final jsonData = await _getJsonData('3/movie/$movieId/credits');
+        final creditsResponse = CreditsResponse.fromJson(jsonData);
+
+        movieCast[movieId] = creditsResponse.cast;
+
+      return creditsResponse.cast;
+    }
+
 }
