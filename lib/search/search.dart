@@ -8,7 +8,7 @@ import 'package:provider/provider.dart';
 class MovieSearchDelegate extends SearchDelegate{
   @override
   List<Widget>? buildActions(BuildContext context) {
-    // TODO: implement buildActions
+    
     return [
       IconButton(
         onPressed: ()=> query = '', 
@@ -19,7 +19,7 @@ class MovieSearchDelegate extends SearchDelegate{
 
   @override
   Widget? buildLeading(BuildContext context) {
-    // TODO: implement buildLeading
+    
     return IconButton(
       onPressed: () {
         close(context, null);
@@ -30,13 +30,14 @@ class MovieSearchDelegate extends SearchDelegate{
 
   @override
   Widget buildResults(BuildContext context) {
-    // TODO: implement buildResults
-    return Text('asdasd');
+    
+    return const Text('Por favor ingrese datos');
   }
 
   Widget _empyContainer(){
+    // ignore: avoid_unnecessary_containers
     return Container(
-        child: Center(
+        child: const Center(
           child: Icon(Icons.movie_creation_outlined, color: Colors.black38,size: 130,),
         ),
       );
@@ -50,9 +51,9 @@ class MovieSearchDelegate extends SearchDelegate{
     }
 
     final moviesProvider = Provider.of<MoviesProvider>(context, listen: false);
-
-    return FutureBuilder(
-      future: moviesProvider.searchMovies(query),
+    moviesProvider.getSuggestionsByQuery(query);
+    return StreamBuilder(
+      stream: moviesProvider.suggestionStream,
       builder: (_,AsyncSnapshot<List<Movie>> snapshot) {
         if(!snapshot.hasData) return _empyContainer();
           final movies = snapshot.data!;
@@ -79,7 +80,7 @@ class _MovieItem extends StatelessWidget {
           leading: Hero(
             tag: movie.heroId!,
             child: FadeInImage(
-              placeholder: AssetImage('assets/no-image.jpg'),
+              placeholder: const AssetImage('assets/no-image.jpg'),
               image: NetworkImage(movie.fullPosterImg),
               width: 60,
               fit: BoxFit.contain,
